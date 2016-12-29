@@ -1,12 +1,12 @@
 'use strict';
 
-function Insta () {
+function Insta() {
     this.https = require('https');
     this.querystring = require('querystring');
 }
 
-Insta.prototype.subscribe = function subscribe(req, res) {
-    console.log('---- Subscribe --hh--');
+Insta.prototype.subscribe = function subscribe() {
+    console.log('---- Subscribe ----');
 
     console.log(this);
 
