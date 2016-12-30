@@ -51,10 +51,10 @@ Insta.prototype.subscribe = function subscribe() {
     subrequest.end();
 };
 
-Insta.prototype.recent = function recent(callback) {
+Insta.prototype.recent = function recent(count, callback) {
     console.log('---- Recent ----');
 
-    let COUNT = 1;
+    let COUNT = count || 1;
 
     let path = '/v1/users/self/media/recent/?' +
         'access_token=' + process.env.ACCESS_TOKEN +
