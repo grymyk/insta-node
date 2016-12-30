@@ -39,12 +39,12 @@ Insta.prototype.subscribe = function subscribe() {
                 console.log(`BODY: ${chunk}`);
             });
             res.on('end', () => {
-                console.log('No more data in response.');
+                console.log('No more data in response.\n');
             });
         });
 
         subrequest.on('error', (e) => {
-        console.log(`problem with request: ${e.message}`);
+        console.log(`problem with request: ${e.message}\n`);
     });
 
     subrequest.write(postData);
@@ -84,14 +84,14 @@ Insta.prototype.recent = function recent(callback) {
         res.on('data', getChunk);
 
         res.on('end', () => {
-            console.log('No more data in response.');
+            console.log('No more data in response.\n');
 
             callback(body);
         });
     });
 
     subrequest.on('error', (e) => {
-        console.log(`problem with request: ${e.message}`);
+        console.log(`problem with request: ${e.message}\n`);
     });
 
     subrequest.end();
