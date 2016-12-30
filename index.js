@@ -8,8 +8,6 @@ function Insta() {
 Insta.prototype.subscribe = function subscribe() {
     console.log('---- Subscribe ----');
 
-    console.log(this);
-
     let postData = this.querystring.stringify({
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,
@@ -49,13 +47,12 @@ Insta.prototype.subscribe = function subscribe() {
         console.log(`problem with request: ${e.message}`);
     });
 
-    // write data to request body
     subrequest.write(postData);
     subrequest.end();
 };
 
 Insta.prototype.recent = function recent(callback) {
-    console.log('---- Recent -----');
+    console.log('---- Recent ----');
 
     let COUNT = 1;
 
@@ -103,7 +100,6 @@ Insta.prototype.recent = function recent(callback) {
         body += chunk;
     }
 };
-
 
 module.exports = Insta;
 
