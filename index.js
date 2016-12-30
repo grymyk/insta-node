@@ -101,5 +101,5 @@ Insta.prototype.recent = function recent(callback) {
     }
 };
 
-module.exports = Insta;
+module.exports = new Insta;
 
