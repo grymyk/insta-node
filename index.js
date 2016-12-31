@@ -38,6 +38,7 @@ Insta.prototype.subscribe = function subscribe() {
             res.on('data', (chunk) => {
                 console.log(`BODY: ${chunk}`);
             });
+
             res.on('end', () => {
                 console.log('No more data in response.\n');
             });
@@ -54,11 +55,9 @@ Insta.prototype.subscribe = function subscribe() {
 Insta.prototype.recent = function recent(count, callback) {
     console.log('---- Recent ----');
 
-    let COUNT = count || 1;
-
     let path = '/v1/users/self/media/recent/?' +
         'access_token=' + process.env.ACCESS_TOKEN +
-        '&count=' + COUNT;
+        '&count=' + count;
 
     let options = {
         protocol: 'https:',
