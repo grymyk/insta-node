@@ -5,6 +5,12 @@ function Insta() {
     this.querystring = require('querystring');
 }
 
+Insta.prototype.DEFAULT = {
+    protocol: 'https:',
+    hostname: 'api.instagram.com',
+    port: null
+};
+
 Insta.prototype.subscribe = function subscribe() {
     console.log('---- Subscribe ----');
 
@@ -18,9 +24,6 @@ Insta.prototype.subscribe = function subscribe() {
     });
 
     let options = {
-        protocol: 'https:',
-        hostname: 'api.instagram.com',
-        port: null,
         path: '/v1/subscriptions/',
         method: 'POST',
         headers: {
@@ -28,6 +31,8 @@ Insta.prototype.subscribe = function subscribe() {
             'Content-Length': Buffer.byteLength(postData)
         }
     };
+
+    options = Object.assign(options, this.DEFAULT);
 
     let subrequest = this.https.request(options, (res) => {
         console.log(`STATUS: ${res.statusCode}`);
@@ -60,9 +65,6 @@ Insta.prototype.recent = function recent(count, callback) {
         '&count=' + count;
 
     let options = {
-        protocol: 'https:',
-        hostname: 'api.instagram.com',
-        port: null,
         path: path,
         method: 'GET',
         headers: {
@@ -71,6 +73,8 @@ Insta.prototype.recent = function recent(count, callback) {
             'Content-Length': 0
         }
     };
+
+    options = Object.assign(options, this.DEFAULT);
 
     let body = '';
 
