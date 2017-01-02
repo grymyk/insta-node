@@ -21,6 +21,8 @@ Insta.prototype.GET_HEADERS = {
 };
 
 Insta.prototype.getHandler = function getHandler(path) {
+	let options = {};
+
 	options = Object.assign(options, this.DEFAULT);
 	options = Object.assign(options, this.GET_HEADERS);
 
