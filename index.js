@@ -20,7 +20,7 @@ Insta.prototype.GET_HEADERS = {
     }
 };
 
-Insta.prototype.getHandler = function getHandler(path) {
+Insta.prototype.getHandler = function getHandler(path, callback) {
 	let options = {};
 
 	options = Object.assign(options, this.DEFAULT);
