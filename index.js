@@ -11,6 +11,97 @@ Insta.prototype.DEFAULT = {
     port: null
 };
 
+Insta.prototype.GET_HEADERS = {
+	method: 'GET',
+	headers: {
+        'User-Agent': 'Instagram Node Lib 0.0.9',
+        'Accept': 'application/json',
+        'Content-Length': 0
+    }
+};
+
+Insta.prototype.getHandler = function getHandler(path) {
+	options = Object.assign(options, this.DEFAULT);
+	options = Object.assign(options, this.GET_HEADERS);
+
+	options.path = path;
+
+	let body = '';
+
+	let subrequest = this.https.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+
+        res.setEncoding('utf8');
+
+        res.on('data', getChunk);
+
+        res.on('end', () => {
+            console.log('No more data in response.\n');
+
+            callback(body);
+        });
+    });
+
+    subrequest.on('error', (e) => {
+        console.log(`problem with request: ${e.message}\n`);
+    });
+
+    subrequest.end();
+
+    function getChunk(chunk) {
+        body += chunk;
+    }
+};
+
+Insta.prototype.showSubscriptions = function showSubscriptions() {
+	console.log('---- Subscriptions ----');
+
+	let path = '/v1/subscriptions?';
+	path += 'client_secret=' + process.env.CLIENT_SECRET;
+	path += '&client_id=' + process.env.CLIENT_ID;
+
+	getHandler(path);
+};
+
+Insta.prototype.recent = function recent(count, callback) {
+    console.log('---- Recent ----');
+
+    let path = '/v1/users/self/media/recent/?';
+	path += 'access_token=' + process.env.ACCESS_TOKEN;
+	path += '&count=' + count;
+
+	this.getHandler(path);
+	/*
+    let body = '';
+
+    let subrequest = this.https.request(options, (res) => {
+        console.log(`STATUS: ${res.statusCode}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+
+        res.setEncoding('utf8');
+
+        res.on('data', getChunk);
+
+        res.on('end', () => {
+            console.log('No more data in response.\n');
+
+            callback(body);
+        });
+    });
+
+    subrequest.on('error', (e) => {
+        console.log(`problem with request: ${e.message}\n`);
+    });
+
+    subrequest.end();
+
+    function getChunk(chunk) {
+        body += chunk;
+    }
+	*/
+};
+
 Insta.prototype.subscribe = function subscribe() {
     console.log('---- Subscribe ----');
 
@@ -55,53 +146,6 @@ Insta.prototype.subscribe = function subscribe() {
 
     subrequest.write(postData);
     subrequest.end();
-};
-
-Insta.prototype.recent = function recent(count, callback) {
-    console.log('---- Recent ----');
-
-    let path = '/v1/users/self/media/recent/?' +
-        'access_token=' + process.env.ACCESS_TOKEN +
-        '&count=' + count;
-
-    let options = {
-        path: path,
-        method: 'GET',
-        headers: {
-            'User-Agent': 'Instagram Node Lib 0.0.9',
-            'Accept': 'application/json',
-            'Content-Length': 0
-        }
-    };
-
-    options = Object.assign(options, this.DEFAULT);
-
-    let body = '';
-
-    let subrequest = this.https.request(options, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-
-        res.setEncoding('utf8');
-
-        res.on('data', getChunk);
-
-        res.on('end', () => {
-            console.log('No more data in response.\n');
-
-            callback(body);
-        });
-    });
-
-    subrequest.on('error', (e) => {
-        console.log(`problem with request: ${e.message}\n`);
-    });
-
-    subrequest.end();
-
-    function getChunk(chunk) {
-        body += chunk;
-    }
 };
 
 module.exports = new Insta;
