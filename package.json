@@ -1,6 +1,6 @@
 {
   "name": "insta-node",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "insta node",
   "main": "index.js",
   "scripts": {
