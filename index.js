@@ -32,7 +32,7 @@ Insta.prototype.getHandler = function getHandler(path, callback) {
 
 	let subrequest = this.https.request(options, (res) => {
         console.log(`STATUS: ${res.statusCode}`);
-        console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
 
         res.setEncoding('utf8');
 
@@ -65,7 +65,7 @@ Insta.prototype.showSubscriptions = function showSubscriptions(callback) {
 	path += 'client_secret=' + process.env.CLIENT_SECRET;
 	path += '&client_id=' + process.env.CLIENT_ID;
 
-	getHandler(path, callback);
+	this.getHandler(path, callback);
 };
 
 Insta.prototype.recent = function recent(count, callback) {
@@ -76,34 +76,6 @@ Insta.prototype.recent = function recent(count, callback) {
 	path += '&count=' + count;
 
 	this.getHandler(path, callback);
-	/*
-    let body = '';
-
-    let subrequest = this.https.request(options, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-
-        res.setEncoding('utf8');
-
-        res.on('data', getChunk);
-
-        res.on('end', () => {
-            console.log('No more data in response.\n');
-
-            callback(body);
-        });
-    });
-
-    subrequest.on('error', (e) => {
-        console.log(`problem with request: ${e.message}\n`);
-    });
-
-    subrequest.end();
-
-    function getChunk(chunk) {
-        body += chunk;
-    }
-	*/
 };
 
 Insta.prototype.subscribe = function subscribe() {
