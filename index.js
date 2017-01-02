@@ -56,14 +56,16 @@ Insta.prototype.getHandler = function getHandler(path, callback) {
     }
 };
 
-Insta.prototype.showSubscriptions = function showSubscriptions() {
+Insta.prototype.showSubscriptions = function showSubscriptions(callback) {
 	console.log('---- Subscriptions ----');
+
+	callback = callback || console.log;
 
 	let path = '/v1/subscriptions?';
 	path += 'client_secret=' + process.env.CLIENT_SECRET;
 	path += '&client_id=' + process.env.CLIENT_ID;
 
-	getHandler(path);
+	getHandler(path, callback);
 };
 
 Insta.prototype.recent = function recent(count, callback) {
@@ -73,7 +75,7 @@ Insta.prototype.recent = function recent(count, callback) {
 	path += 'access_token=' + process.env.ACCESS_TOKEN;
 	path += '&count=' + count;
 
-	this.getHandler(path);
+	this.getHandler(path, callback);
 	/*
     let body = '';
 
