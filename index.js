@@ -56,7 +56,7 @@ Insta.prototype.getHandler = function getHandler(path, callback) {
     }
 };
 
-Insta.prototype.showSubscriptions = function showSubscriptions(callback) {
+Insta.prototype.checkSubscriptions = function checkSubscriptions(callback) {
 	console.log('---- Subscriptions ----');
 
 	callback = callback || console.log;
