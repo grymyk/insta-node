@@ -35,47 +35,6 @@ Insta.prototype.responseCallback = function responseCallback(res) {
     });
 };
 
-Insta.prototype.deleteSubscription = function(id) {
-    console.log('---- Delete Subscription ---- ');
-
-    let deleteData = {
-        client_secret: process.env.CLIENT_SECRET,
-        client_id: process.env.CLIENT_ID
-    };
-
-    if (id) {
-        console.log('Id: %s\n', id);
-
-        deleteData['id'] = id;
-    } else {
-        deleteData['object'] ='all';
-    }
-
-    let payload = this.querystring.stringify(deleteData);
-    console.log('payload: ', payload);
-
-    let options = {
-        protocol: 'https:',
-        hostname: 'api.instagram.com',
-        port: null,
-        path: '/v1/subscriptions',
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(payload)
-        }
-    };
-
-    let subrequest = this.https.request(options, this.responseCallback);
-
-    subrequest.on('error', (e) => {
-        console.log(`problem with request: ${e.message}\n`);
-    });
-
-    subrequest.write(payload);
-    subrequest.end();
-};
-
 Insta.prototype.getHandler = function getHandler(path, callback) {
 	let options = {};
 
