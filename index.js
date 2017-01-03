@@ -51,7 +51,7 @@ Insta.prototype.deleteSubscription = function(id) {
         deleteData['object'] ='all';
     }
 
-    let payLoad = this.querystring.stringify(deleteData);
+    let payload = this.querystring.stringify(deleteData);
 
     let options = {
         protocol: 'https:',
@@ -61,7 +61,7 @@ Insta.prototype.deleteSubscription = function(id) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(payLoad)
+            'Content-Length': Buffer.byteLength(payload)
         }
     };
 
