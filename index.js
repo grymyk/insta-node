@@ -52,11 +52,12 @@ Insta.prototype.deleteSubscription = function(id) {
     }
 
     let payload = this.querystring.stringify(deleteData);
+    console.log('payload: ', payload);
 
     let options = {
         protocol: 'https:',
         hostname: 'api.instagram.com',
-        port: 9200,
+        port: null,
         path: '/v1/subscriptions',
         method: 'DELETE',
         headers: {
