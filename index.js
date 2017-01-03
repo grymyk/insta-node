@@ -38,23 +38,20 @@ Insta.prototype.responseCallback = function responseCallback(res) {
 Insta.prototype.deleteSubscription = function(id) {
     console.log('---- Delete Subscription ---- ');
 
-    let q = {
-        query: {
-            "client_secret": process.env.CLIENT_SECRET,
-            "client_id": process.env.CLIENT_ID
-        }
+    let deleteData = {
+        client_secret: process.env.CLIENT_SECRET,
+        client_id: process.env.CLIENT_ID
     };
 
     if (id) {
         console.log('Id: %s\n', id);
 
-        q['query']['id'] = id;
+        deleteData['id'] = id;
     } else {
-        q['query']['object'] ='all';
+        deleteData['object'] ='all';
     }
 
-
-    let payload = JSON.stringify(q);
+    let payLoad = this.querystring.stringify(deleteData);
 
     let options = {
         protocol: 'https:',
@@ -63,8 +60,8 @@ Insta.prototype.deleteSubscription = function(id) {
         path: '/v1/subscriptions',
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(payload)
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(payLoad)
         }
     };
 
