@@ -20,6 +20,64 @@ Insta.prototype.GET_HEADERS = {
     }
 };
 
+Insta.prototype.responseCallback = function responseCallback(res) {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+
+    res.setEncoding('utf8');
+
+    res.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+    });
+
+    res.on('end', () => {
+        console.log('No more data in response.\n');
+    });
+};
+
+Insta.prototype.deleteSubscription = function(id) {
+    console.log('---- Delete Subscription ---- ');
+
+    let q = {
+        query: {
+            "client_secret": process.env.CLIENT_SECRET,
+            "client_id": process.env.CLIENT_ID
+        }
+    };
+
+    if (id) {
+        console.log('Id: %s\n', id);
+
+        q['query']['id'] = id;
+    } else {
+        q['query']['object'] ='all';
+    }
+
+
+    let payload = JSON.stringify(q);
+
+    let options = {
+        protocol: 'https:',
+        hostname: 'api.instagram.com',
+        port: 9200,
+        path: '/v1/subscriptions'.
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(payload)
+        }
+    };
+
+    let subrequest = this.https.request(options, this.responseCallback);
+
+    subrequest.on('error', (e) => {
+        console.log(`problem with request: ${e.message}\n`);
+    });
+
+    subrequest.write(payload);
+    subrequest.end();
+};
+
 Insta.prototype.getHandler = function getHandler(path, callback) {
 	let options = {};
 
@@ -61,8 +119,7 @@ Insta.prototype.checkSubscriptions = function checkSubscriptions(callback) {
 
 	callback = callback || console.log;
 
-	let path = '/v1/subscriptions?';
-	path += 'client_secret=' + process.env.CLIENT_SECRET;
+	let path = '/v1/subscriptions?client_secret=' + process.env.CLIENT_SECRET;
 	path += '&client_id=' + process.env.CLIENT_ID;
 
 	this.getHandler(path, callback);
@@ -71,8 +128,7 @@ Insta.prototype.checkSubscriptions = function checkSubscriptions(callback) {
 Insta.prototype.recent = function recent(count, callback) {
     console.log('---- Recent ----');
 
-    let path = '/v1/users/self/media/recent/?';
-	path += 'access_token=' + process.env.ACCESS_TOKEN;
+    let path = '/v1/users/self/media/recent/?access_token=' + process.env.ACCESS_TOKEN;
 	path += '&count=' + count;
 
 	this.getHandler(path, callback);
@@ -101,22 +157,26 @@ Insta.prototype.subscribe = function subscribe() {
 
     options = Object.assign(options, this.DEFAULT);
 
+    let subrequest = this.https.request(options, this.responseCallback);
+
+    /*
     let subrequest = this.https.request(options, (res) => {
         console.log(`STATUS: ${res.statusCode}`);
         //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
 
-            res.setEncoding('utf8');
+        res.setEncoding('utf8');
 
-            res.on('data', (chunk) => {
-                console.log(`BODY: ${chunk}`);
-            });
-
-            res.on('end', () => {
-                console.log('No more data in response.\n');
-            });
+        res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
         });
 
-        subrequest.on('error', (e) => {
+        res.on('end', () => {
+            console.log('No more data in response.\n');
+        });
+    });
+    */
+
+    subrequest.on('error', (e) => {
         console.log(`problem with request: ${e.message}\n`);
     });
 
