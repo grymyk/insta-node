@@ -60,7 +60,7 @@ Insta.prototype.deleteSubscription = function(id) {
         protocol: 'https:',
         hostname: 'api.instagram.com',
         port: 9200,
-        path: '/v1/subscriptions'.
+        path: '/v1/subscriptions',
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
