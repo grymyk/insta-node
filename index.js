@@ -60,7 +60,7 @@ Insta.prototype.deleteSubscription = function(id) {
         path: '/v1/subscriptions',
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
             'Content-Length': Buffer.byteLength(payload)
         }
     };
@@ -155,23 +155,6 @@ Insta.prototype.subscribe = function subscribe() {
     options = Object.assign(options, this.DEFAULT);
 
     let subrequest = this.https.request(options, this.responseCallback);
-
-    /*
-    let subrequest = this.https.request(options, (res) => {
-        console.log(`STATUS: ${res.statusCode}`);
-        //console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-
-        res.setEncoding('utf8');
-
-        res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
-        });
-
-        res.on('end', () => {
-            console.log('No more data in response.\n');
-        });
-    });
-    */
 
     subrequest.on('error', (e) => {
         console.log(`problem with request: ${e.message}\n`);
